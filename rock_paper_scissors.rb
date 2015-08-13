@@ -26,7 +26,7 @@ def display_winning_message(winner, user_choice, computer_choice)
   end
 end
 
-choices = ["Rock", "Paper", "Scissors"]
+CHOICES = ["Rock", "Paper", "Scissors"]
 
 puts "Play Rock Paper Scissors!"
 
@@ -38,7 +38,7 @@ loop do
                 when "s" then "Scissors"
                 end
   next unless choices.include?(user_choice)
-  computer_choice = choices.sample
+  computer_choice = CHOICES.sample
   
   display_winning_message(determine_winner(user_choice, computer_choice), user_choice, computer_choice)
   

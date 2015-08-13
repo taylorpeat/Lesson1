@@ -37,7 +37,7 @@ loop do
                 when "p" then "Paper"
                 when "s" then "Scissors"
                 end
-  next unless choices.include?(user_choice)
+  next unless CHOICES.include?(user_choice)
   computer_choice = CHOICES.sample
   
   display_winning_message(determine_winner(user_choice, computer_choice), user_choice, computer_choice)

@@ -58,7 +58,7 @@ def advanced_computer_spot_selection(current_board)
   computer_spot ||= find_critical_square(user_numbers, computer_numbers)
   # Determine best square if none critical
   computer_spot ||= find_best_square(user_numbers, computer_numbers)
-  computer_spot ||= 5 unless current_board[5] != :b
+  computer_spot ||= 5 if current_board[5] == :b
   computer_spot
 end
 
@@ -73,11 +73,9 @@ def find_critical_square(p1_numbers, p2_numbers)
         strategic_square = sq unless p2_numbers.include?(sq)
       end
     end
-    if strategic_square && i == 2
-      return strategic_square
-    end
+    return strategic_square if strategic_square && i == 2
   end
-  return nil
+  nil
 end
 
 def find_best_square(user_numbers, computer_numbers)
@@ -109,7 +107,7 @@ def find_fork_opportunities(users_winning_combos, user_numbers)
       end
     end
   end
-  return fork_opportunities
+  fork_opportunities
 end
 
 def display_winner_message(winner, difficulty)

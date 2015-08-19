@@ -90,7 +90,7 @@ def compile_lines_hidden(lines, cv)
 end
 
 def update_display(name, balance, player_cards, player_cards2, dealer_cards, player_total, player_total2,
-                   dealer_total, stand, stand2, bet ,bet2)
+                   dealer_total, stand, stand2, bet, bet2)
   if stand && (stand2 || player_total2 == 0) && !player_doesnt_care?(player_total, player_total2, dealer_total)
     sleep 1
   else
@@ -99,7 +99,7 @@ def update_display(name, balance, player_cards, player_cards2, dealer_cards, pla
   end
   system 'clear'
   puts "Balance: $#{balance}" + " " * 10 + "--TEALEAF BLACKJACK--"
-  puts "Wager: $#{bet + bet2}"
+  puts "Wager:   $#{bet + bet2}"
   puts "\nPlayer Cards:" + " " * 25 + "Dealer Cards:"
   display_cards(player_cards, dealer_cards)
   print player_cards.empty? ? "" : "Player total:#{player_total}"
@@ -171,8 +171,7 @@ def determine_hand_values(cards)
   [cards, total]
 end
 
-def update_hand(deck, name, balance, player_cards, player_cards2, dealer_cards, player_total, player_total2,
-                     dealer_total, stand, stand2, bet, bet2)
+def update_hand(deck, balance, player_cards, player_cards2, player_total, player_total2, bet, bet2, stand)
   play = prompt_user(player_cards, player_cards2, balance, bet)
   case play
   when "Hit" then deck, player_cards, player_total = hit(deck, player_cards, player_total)
@@ -190,8 +189,6 @@ def update_hand(deck, name, balance, player_cards, player_cards2, dealer_cards, 
     player_total2 = player_cards2[0][2]
   when "Stand" then stand = true
   end
-  update_display(name, balance, player_cards, player_cards2, dealer_cards, player_total, player_total2,
-                     dealer_total, stand, stand2, bet, bet2)
   [deck, player_cards, player_cards2, player_total, player_total2, balance, bet, bet2, stand]
 end
 
@@ -336,19 +333,21 @@ loop do
     unless stand
       print "(For first hand)" unless player_total2 == 0
       deck, player_cards, player_cards2, player_total, player_total2, balance, bet, bet2, stand \
-        = update_hand(deck, name, balance, player_cards, player_cards2, dealer_cards, player_total, player_total2,
+        = update_hand(deck, balance, player_cards, player_cards2, player_total, player_total2, bet, bet2, stand)
+      update_display(name, balance, player_cards, player_cards2, dealer_cards, player_total, player_total2,
                      dealer_total, stand, stand2, bet, bet2)
     end
     ## Second hand input and update
     if player_cards2.length > 1 && !stand2
       print "(For second hand)"
-      deck, player_cards2, player_cards, player_total2, player_total, balance, bet, bet2, stand2 \
-        = update_hand(deck, name, balance, player_cards, player_cards2, dealer_cards, player_total, player_total2,
+      deck, player_cards2, player_cards, player_total2, player_total, balance, bet2, bet, stand2 \
+        = update_hand(deck, balance, player_cards2, player_cards, player_total2, player_total, bet2, bet, stand2)
+      update_display(name, balance, player_cards, player_cards2, dealer_cards, player_total, player_total2,
                      dealer_total, stand, stand2, bet, bet2)
     end
     ## Update after split
     if player_cards2.length == 1
-      update_display(name, balance, player_cards, player_cards2, dealer_cards, player_total, player_total2,
+      update_display(name, balance, player_cards2, player_cards, dealer_cards, player_total2, player_total,
                      dealer_total, stand, stand2, bet, bet2)
       deck, player_cards, player_total = hit(deck, player_cards, player_total)
       deck, player_cards2, player_total2 = hit(deck, player_cards2, player_total2)

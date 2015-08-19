@@ -347,7 +347,7 @@ loop do
     end
     ## Update after split
     if player_cards2.length == 1
-      update_display(name, balance, player_cards2, player_cards, dealer_cards, player_total2, player_total,
+      update_display(name, balance, player_cards, player_cards2, dealer_cards, player_total, player_total2,
                      dealer_total, stand, stand2, bet, bet2)
       deck, player_cards, player_total = hit(deck, player_cards, player_total)
       deck, player_cards2, player_total2 = hit(deck, player_cards2, player_total2)

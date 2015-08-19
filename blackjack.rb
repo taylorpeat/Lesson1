@@ -362,7 +362,7 @@ loop do
   stand = true if dealer_total == 21 || player_total > 21 || player_total == 21
   stand2 = true if player_total2 > 21 || player_total2 == 21
 
-  # Computer's turn
+  # Dealer's turn
   if stand && (player_cards2.empty? || stand2 )
     loop do
       break if dealer_total >= 17 || player_doesnt_care?(player_total, player_total2, dealer_total)
